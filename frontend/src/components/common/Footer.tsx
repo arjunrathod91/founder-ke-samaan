@@ -30,7 +30,7 @@ export default function Footer() {
             </Link>
 
             <p className="mt-2 font-hind text-xs text-white">
-              Wear what you're building.
+              Wear what you&apos;re building.
             </p>
           </div>
 

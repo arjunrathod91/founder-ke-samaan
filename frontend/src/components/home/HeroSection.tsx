@@ -23,7 +23,7 @@ export default function HeroSection() {
           </p>
 
           <p className="mt-4 max-w-[440px] font-hind text-sm font-medium leading-relaxed text-[#17130F] sm:text-base">
-            Wear what you're building. Tee, cap, bag, sticker
+            Wear what you&apos;re building. Tee, cap, bag, sticker
             aur NFC card, sab ek jagah.
           </p>
 
