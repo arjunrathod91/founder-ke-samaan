@@ -58,7 +58,7 @@ export default function TapSection() {
             </h3>
 
             <p className="mt-3 font-hind text-xs text-[#17130F]">
-              What we're building: [ONE LINE]
+              What we&apos;re building: [ONE LINE]
             </p>
 
             <div className="mt-5 space-y-2">
