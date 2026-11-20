@@ -21,7 +21,7 @@ export default function TapHero() {
           <p className="mt-6 max-w-lg font-hind text-base leading-relaxed text-[#15110F] sm:text-lg">
             The name starts the conversation. The tap finishes it.
             One touch of a phone opens the page where you explain
-            what you're building.
+            what you&apos;re building.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
