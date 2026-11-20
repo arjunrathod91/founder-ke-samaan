@@ -55,7 +55,7 @@ export default function TapPagePreview() {
               </h3>
 
               <p className="mt-3 font-hind text-sm text-[#15110F]">
-                What we're building: [ONE LINE]
+                What we&apos;re building: [ONE LINE]
               </p>
 
               <div className="mt-8 space-y-3">
