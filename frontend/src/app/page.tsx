@@ -1,34 +1,35 @@
+
+import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
-import Navbar from "@/components/common/Navbar"
-import CollectionsSection from "@/components/home/CollectionsSection";
+
 import HeroSection from "@/components/home/HeroSection";
 import ProductsSection from "@/components/home/ProductsSection";
 import TapSection from "@/components/home/TapSection";
+import CollectionsSection from "@/components/home/CollectionsSection";
 import WaitlistSection from "@/components/home/WaitlistSection";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Navbar/>
-      <header></header>
+      <div id="home">
+        <HeroSection />
+      </div>
 
-      <HeroSection/>
-      <section id="home"></section>
+      <div id="products">
+        <ProductsSection />
+      </div>
 
-      <ProductsSection/>
-      <section id="products"></section>
+      <div id="tap">
+        <TapSection />
+      </div>
 
-      <TapSection/>
-      <section id="tap"></section>
+      <div id="collections">
+        <CollectionsSection />
+      </div>
 
-      <CollectionsSection/>
-      <section id="collections"></section>
-
-      <WaitlistSection/>
-      <section id="waitlist"></section>
-
-      <Footer/>
-      <footer></footer>
+      <div id="waitlist">
+        <WaitlistSection />
+      </div>
     </main>
   );
 }
