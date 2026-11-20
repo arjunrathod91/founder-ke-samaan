@@ -1,16 +1,17 @@
 
 import Link from "next/link";
 
+
 const exploreLinks = [
-  { label: "Shop", href: "#shop" },
-  { label: "Collections", href: "#collections" },
-  { label: "Tap (NFC)", href: "#tap" },
+  { label: "Shop", href: "/shop" },
+  { label: "Collections", href: "/collections" },
+  { label: "Tap (NFC)", href: "/tap" },
 ];
 
 const companyLinks = [
   { label: "Teams and events", href: "/teams" },
-  { label: "Our story", href: "#story" },
-  { label: "Contact and waitlist", href: "#waitlist" },
+  { label: "Our story", href: "/story" },
+  { label: "Contact and waitlist", href: "/waitlist" },
 ];
 
 export default function Footer() {
