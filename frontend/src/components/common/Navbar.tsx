@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 const links = [
-  { label: "Shop", href: "#shop" },
-  { label: "Collections", href: "#collections" },
-  { label: "Tap", href: "#tap" },
+  { label: "Shop", href: "/shop" },
+  { label: "Collections", href: "/collections" },
+  { label: "Tap", href: "/tap" },
   { label: "Teams", href: "/teams" },
-  { label: "Story", href: "#story" },
+  { label: "Story", href: "/story" },
 ];
 
 export default function Navbar() {
