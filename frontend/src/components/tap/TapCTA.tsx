@@ -12,8 +12,8 @@ export default function TapCTA() {
           </h2>
 
           <p className="mt-4 max-w-xl font-hind text-sm leading-relaxed text-white sm:text-base">
-            Join the waitlist and tell us what you're building.
-            We'll set up your first tap page with the drop.
+            Join the waitlist and tell us what you&apos;re building.
+            We&apos;ll set up your first tap page with the drop.
           </p>
         </div>
 
