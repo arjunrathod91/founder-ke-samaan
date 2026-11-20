@@ -86,7 +86,7 @@ export default function Navbar() {
             ))}
 
             <Link
-              href="#waitlist"
+              href="/waitlist"
               onClick={() => setOpen(false)}
               className="rounded-full border-2 border-black bg-[#DF251D] px-5 py-3 text-center font-hind text-sm font-bold text-white shadow-[3px_3px_0_#17130F]"
             >
