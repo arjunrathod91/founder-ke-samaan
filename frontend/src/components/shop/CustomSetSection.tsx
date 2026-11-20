@@ -15,7 +15,7 @@ export default function CustomSetSection() {
 
             <p className="mt-4 max-w-xl font-body text-base leading-relaxed text-white sm:text-lg">
               Want your own startup name on the tee, cap or NFC page?
-              Tell us what you're building and we'll make a custom set.
+              Tell us what you&apos;re building and we&apos;ll make a custom set.
             </p>
           </div>
 
