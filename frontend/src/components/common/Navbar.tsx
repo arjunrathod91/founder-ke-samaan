@@ -18,8 +18,8 @@ export default function Navbar() {
   return (
     <header className="relative z-50 bg-[#FFD83D] text-[#17130F]">
       {/* Announcement */}
-      <div className="px-3 py-1 text-center">
-        <p className="font-hind text-[10px] font-bold">
+      <div className="bg-black px-3 py-1 text-center">
+        <p className="font-hind text-[10px] font-bold text-[#FFD83D]">
           Pehli drop: sirf 50 se 100 pieces. Founder stories ke saath.
         </p>
       </div>
