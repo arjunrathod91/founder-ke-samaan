@@ -1,4 +1,9 @@
 
+"use client";
+
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+
 const benefits = [
   "Early access to Drop 01",
   "Your own tap page set up with the drop",
@@ -16,6 +21,69 @@ const interests = [
 ];
 
 export default function WaitlistHero() {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setLoading(true);
+    setMessage("");
+    setMessageType("");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const email = String(formData.get("email") || "").trim().toLowerCase();
+    const name = String(formData.get("name") || "").trim();
+    const startup = String(formData.get("startup") || "").trim();
+    const customMessage = String(formData.get("customMessage") || "").trim();
+    const selectedInterests = formData.getAll("interests").map(String);
+
+    if (!email || !name) {
+      setMessage("Please enter your name and email.");
+      setMessageType("error");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const supabase = createClient();
+
+      const { error } = await supabase.from("waitlist").insert({
+        email,
+        name,
+        startup: startup || null,
+        interests: selectedInterests,
+        custom_message: customMessage || null,
+        status: "pending",
+      });
+
+      if (error) {
+        if (error.code === "23505") {
+          setMessage("This email is already registered on our waitlist.");
+        } else {
+          console.error("Waitlist submission error:", error);
+          setMessage("Something went wrong. Please try again.");
+        }
+
+        setMessageType("error");
+        return;
+      }
+
+      setMessage("You're on the waitlist! We'll be in touch soon.");
+      setMessageType("success");
+      form.reset();
+    } catch (error) {
+      console.error("Unexpected waitlist error:", error);
+      setMessage("Something went wrong. Please try again.");
+      setMessageType("error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <section className="bg-brand-yellow px-6 py-16 md:py-24">
       <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
@@ -51,7 +119,7 @@ export default function WaitlistHero() {
 
         {/* Waitlist Form */}
         <div className="rounded-[24px] border-2 border-brand-black bg-brand-cream p-6 shadow-[5px_5px_0px_#17130F] md:p-8">
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Email */}
             <div>
               <label htmlFor="email" className="mb-2 block text-sm font-bold">
@@ -77,6 +145,7 @@ export default function WaitlistHero() {
                 name="name"
                 type="text"
                 placeholder="Your name"
+                required
                 className="w-full rounded-full border-2 border-brand-black bg-white px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-brand-yellow"
               />
             </div>
@@ -136,12 +205,28 @@ export default function WaitlistHero() {
               />
             </div>
 
+            {/* Feedback */}
+            {message && (
+              <p
+                role="status"
+                aria-live="polite"
+                className={`text-sm font-semibold ${
+                  messageType === "success"
+                    ? "text-green-700"
+                    : "text-red-600"
+                }`}
+              >
+                {message}
+              </p>
+            )}
+
             {/* Submit */}
             <button
               type="submit"
-              className="w-full rounded-full border-2 border-brand-black bg-brand-red px-6 py-3 font-bold text-white shadow-[2px_3px_0px_#17130F] transition hover:translate-y-[2px] hover:shadow-none"
+              disabled={loading}
+              className="w-full rounded-full border-2 border-brand-black bg-brand-red px-6 py-3 font-bold text-white shadow-[2px_3px_0px_#17130F] transition hover:translate-y-[2px] hover:shadow-none disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Waitlist mein jodo
+              {loading ? "Adding you..." : "Waitlist mein jodo"}
             </button>
           </form>
         </div>
