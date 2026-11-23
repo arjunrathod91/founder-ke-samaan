@@ -1,52 +1,76 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 type WaitlistEntry = {
   id: string;
   name: string;
   email: string;
-  status: string;
+  building: string | null;
+  interested_in: string[] | null;
+  custom_message: string | null;
   created_at: string;
 };
 
 export default function AdminDashboard() {
   const [entries, setEntries] = useState<WaitlistEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function fetchWaitlist() {
-      const supabase = createClient();
+  const fetchWaitlist = useCallback(async () => {
+    const supabase = createClient();
 
-      const { data, error } = await supabase
-        .from("waitlist")
-        .select("id, name, email, status, created_at")
-        .order("created_at", { ascending: false });
+    setError("");
 
-      if (error) {
-        console.error("Error fetching waitlist:", error);
-        setError("Unable to load waitlist entries.");
-      } else {
-        setEntries(data || []);
-      }
+    const { data, error } = await supabase
+      .from("waitlist")
+      .select(`
+        id,
+        name,
+        email,
+        building,
+        interested_in,
+        custom_message,
+        created_at
+      `)
+      .order("created_at", { ascending: false });
 
-      setLoading(false);
+    if (error) {
+      console.error("Error fetching waitlist:", error);
+      setError(error.message);
+    } else {
+      setEntries((data || []) as WaitlistEntry[]);
     }
 
-    fetchWaitlist();
+    setLoading(false);
+    setRefreshing(false);
   }, []);
+
+  useEffect(() => {
+    fetchWaitlist();
+  }, [fetchWaitlist]);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchWaitlist();
+  };
 
   const totalSignups = entries.length;
 
-  const newSignups = entries.filter(
-    (entry) => entry.status === "pending"
-  ).length;
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
     <main className="min-h-screen bg-brand-cream font-body">
+
       {/* Header */}
       <header className="border-b-2 border-brand-black bg-brand-yellow px-6 py-5">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
@@ -54,7 +78,9 @@ export default function AdminDashboard() {
             <h1 className="font-heading text-xl font-extrabold">
               FOUNDER KE SAMAAN
             </h1>
-            <p className="text-xs font-semibold">ADMIN PORTAL</p>
+            <p className="text-xs font-semibold">
+              ADMIN PORTAL
+            </p>
           </div>
 
           <span className="rounded-full border-2 border-brand-black bg-brand-cream px-4 py-2 text-xs font-bold">
@@ -63,61 +89,92 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      {/* Dashboard Content */}
+      {/* Dashboard */}
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <div className="mb-10">
-          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-brand-red">
-            OVERVIEW / 01
-          </p>
 
-          <h2 className="font-heading text-4xl font-extrabold">
-            Dashboard.
-          </h2>
+        {/* Page Heading */}
+        <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-brand-red">
+              OVERVIEW / 01
+            </p>
 
-          <p className="mt-2 text-sm text-brand-black/60">
-            Manage your waitlist and founder community.
-          </p>
+            <h2 className="font-heading text-4xl font-extrabold">
+              Dashboard.
+            </h2>
+
+            <p className="mt-2 text-sm text-brand-black/60">
+              Manage your waitlist and founder community.
+            </p>
+          </div>
+
+          <button
+            onClick={handleRefresh}
+            disabled={loading || refreshing}
+            className="w-fit rounded-lg border-2 border-brand-black bg-brand-yellow px-5 py-3 text-sm font-bold shadow-[3px_3px_0_#17130F] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_#17130F] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {refreshing ? "Refreshing..." : "↻ Refresh data"}
+          </button>
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="mb-8 rounded-xl border-2 border-red-600 bg-red-50 p-5">
+            <h3 className="font-bold text-red-700">
+              Unable to load waitlist
+            </h3>
+            <p className="mt-2 text-sm text-red-600">
+              {error}
+            </p>
+          </div>
+        )}
+
         {/* Statistics */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2">
+
           <div className="rounded-xl border-2 border-brand-black bg-white p-6 shadow-[5px_5px_0_#17130F]">
-            <p className="text-sm font-semibold">Total signups</p>
+            <p className="text-sm font-semibold">
+              Total signups
+            </p>
+
             <h3 className="mt-4 font-heading text-4xl font-extrabold">
               {loading ? "--" : totalSignups}
             </h3>
+
             <p className="mt-2 text-xs text-brand-black/50">
               All waitlist registrations
             </p>
           </div>
 
-          <div className="rounded-xl border-2 border-brand-black bg-white p-6 shadow-[5px_5px_0_#17130F]">
-            <p className="text-sm font-semibold">New signups</p>
-            <h3 className="mt-4 font-heading text-4xl font-extrabold">
-              {loading ? "--" : newSignups}
-            </h3>
-            <p className="mt-2 text-xs text-brand-black/50">
-              Awaiting review
-            </p>
-          </div>
-
           <div className="rounded-xl border-2 border-brand-black bg-brand-yellow p-6 shadow-[5px_5px_0_#17130F]">
-            <p className="text-sm font-semibold">Drop 01 target</p>
+            <p className="text-sm font-semibold">
+              Drop 01 target
+            </p>
+
             <h3 className="mt-4 font-heading text-4xl font-extrabold">
               100
             </h3>
+
             <p className="mt-2 text-xs">
               First hundred founders
             </p>
           </div>
+
         </div>
 
-        {/* Waitlist Section */}
+        {/* Waitlist */}
         <section className="mt-12">
-          <div className="mb-5 flex items-center justify-between">
-            <h3 className="font-heading text-2xl font-extrabold">
-              Waitlist entries
-            </h3>
+
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="font-heading text-2xl font-extrabold">
+                Waitlist entries
+              </h3>
+
+              <p className="mt-1 text-sm text-brand-black/50">
+                Founder registrations and their interests.
+              </p>
+            </div>
 
             <span className="rounded-full border-2 border-brand-black px-3 py-1 text-xs font-bold">
               {loading ? "--" : `${totalSignups} ENTRIES`}
@@ -125,38 +182,41 @@ export default function AdminDashboard() {
           </div>
 
           <div className="overflow-x-auto rounded-xl border-2 border-brand-black bg-white shadow-[5px_5px_0_#17130F]">
-            <table className="w-full text-left text-sm">
+            <table className="w-full min-w-[1100px] text-left text-sm">
+
               <thead className="border-b-2 border-brand-black bg-brand-yellow">
                 <tr>
                   <th className="px-5 py-4">Name</th>
                   <th className="px-5 py-4">Email</th>
-                  <th className="px-5 py-4">Status</th>
-                  <th className="px-5 py-4">Date</th>
+                  <th className="px-5 py-4">
+                    What are you building?
+                  </th>
+                  <th className="px-5 py-4">
+                    I&apos;m interested in
+                  </th>
+                  <th className="px-5 py-4">
+                    Custom message
+                  </th>
+                  <th className="px-5 py-4">Joined</th>
                 </tr>
               </thead>
 
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={4} className="px-5 py-12 text-center">
+                    <td colSpan={6} className="px-5 py-12 text-center">
                       Loading waitlist entries...
                     </td>
                   </tr>
                 ) : error ? (
                   <tr>
-                    <td
-                      colSpan={4}
-                      className="px-5 py-12 text-center text-red-600"
-                    >
-                      {error}
+                    <td colSpan={6} className="px-5 py-12 text-center text-red-600">
+                      Failed to load entries.
                     </td>
                   </tr>
                 ) : entries.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={4}
-                      className="px-5 py-12 text-center text-brand-black/50"
-                    >
+                    <td colSpan={6} className="px-5 py-12 text-center text-brand-black/50">
                       No waitlist registrations yet.
                     </td>
                   </tr>
@@ -170,30 +230,39 @@ export default function AdminDashboard() {
                         {entry.name}
                       </td>
 
-                      <td className="px-5 py-4">{entry.email}</td>
-
                       <td className="px-5 py-4">
-                        <span className="rounded-full border border-brand-black px-3 py-1 text-xs font-bold">
-                          {entry.status.toUpperCase()}
-                        </span>
+                        {entry.email}
                       </td>
 
-                      <td className="px-5 py-4 whitespace-nowrap">
-                        {new Date(entry.created_at).toLocaleDateString(
-                          "en-IN",
-                          {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )}
+                      <td className="max-w-xs whitespace-normal px-5 py-4">
+                        {entry.building || "—"}
+                      </td>
+
+                      <td className="max-w-xs whitespace-normal px-5 py-4">
+                        {entry.interested_in?.length
+                          ? entry.interested_in.join(", ")
+                          : "—"}
+                      </td>
+
+                      <td className="max-w-xs whitespace-normal px-5 py-4">
+                        {entry.custom_message || "—"}
+                      </td>
+
+                      <td className="whitespace-nowrap px-5 py-4">
+                        {formatDate(entry.created_at)}
                       </td>
                     </tr>
                   ))
                 )}
               </tbody>
+
             </table>
           </div>
+
+          <p className="mt-4 text-xs text-brand-black/50">
+            Showing all registrations, newest first.
+          </p>
+
         </section>
       </div>
     </main>
