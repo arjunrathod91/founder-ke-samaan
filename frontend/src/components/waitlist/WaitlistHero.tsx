@@ -39,6 +39,7 @@ export default function WaitlistHero() {
     const name = String(formData.get("name") || "").trim();
     const startup = String(formData.get("startup") || "").trim();
     const customMessage = String(formData.get("customMessage") || "").trim();
+
     const selectedInterests = formData.getAll("interests").map(String);
 
     if (!email || !name) {
@@ -54,8 +55,8 @@ export default function WaitlistHero() {
       const { error } = await supabase.from("waitlist").insert({
         email,
         name,
-        startup: startup || null,
-        interests: selectedInterests,
+        building: startup || null,
+        interested_in: selectedInterests,
         custom_message: customMessage || null,
         status: "pending",
       });
@@ -87,6 +88,7 @@ export default function WaitlistHero() {
   return (
     <section className="bg-brand-yellow px-6 py-16 md:py-24">
       <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+
         {/* Left Content */}
         <div>
           <span className="mb-5 block text-xs font-bold uppercase tracking-[0.2em]">
@@ -120,6 +122,7 @@ export default function WaitlistHero() {
         {/* Waitlist Form */}
         <div className="rounded-[24px] border-2 border-brand-black bg-brand-cream p-6 shadow-[5px_5px_0px_#17130F] md:p-8">
           <form className="space-y-5" onSubmit={handleSubmit}>
+
             {/* Email */}
             <div>
               <label htmlFor="email" className="mb-2 block text-sm font-bold">
@@ -150,7 +153,7 @@ export default function WaitlistHero() {
               />
             </div>
 
-            {/* Startup */}
+            {/* Building */}
             <div>
               <label htmlFor="startup" className="mb-2 block text-sm font-bold">
                 What are you building?
@@ -228,6 +231,7 @@ export default function WaitlistHero() {
             >
               {loading ? "Adding you..." : "Waitlist mein jodo"}
             </button>
+
           </form>
         </div>
       </div>
