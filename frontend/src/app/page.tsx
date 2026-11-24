@@ -7,6 +7,8 @@ import ProductsSection from "@/components/home/ProductsSection";
 import TapSection from "@/components/home/TapSection";
 import CollectionsSection from "@/components/home/CollectionsSection";
 import WaitlistSection from "@/components/home/WaitlistSection";
+import DekhoJanoSection from "@/components/home/DekhoJanoSection";
+import FounderTapriSection from "@/components/home/FounderTapriSection";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
       <div id="home">
         <HeroSection />
       </div>
+      <DekhoJanoSection/>
+      <FounderTapriSection />
 
       <div id="products">
         <ProductsSection />
