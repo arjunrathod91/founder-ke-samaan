@@ -91,7 +91,6 @@ function getLookingForTags(
     return [];
   }
 
-  // Also support JSON-encoded arrays.
   try {
     const parsed: unknown = JSON.parse(value);
 
@@ -101,7 +100,7 @@ function getLookingForTags(
       );
     }
   } catch {
-    // Normal text value.
+    // Treat normal text as a single tag.
   }
 
   return [value];
@@ -148,11 +147,7 @@ function FounderCard({
 
   return (
     <article className="rounded-[20px] border-[3px] border-[#17130F] bg-[#FFF9E9] p-3.5 sm:p-4">
-
-      {/* FOUNDER DETAILS */}
-
       <div className="flex items-center gap-3.5">
-
         <div
           className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full border-[3px] border-[#17130F] text-lg font-extrabold text-white"
           style={{ backgroundColor: color }}
@@ -169,18 +164,13 @@ function FounderCard({
             {formatRelativeTime(founder.created_at)}
           </p>
         </div>
-
       </div>
-
-      {/* WHAT THEY ARE BUILDING */}
 
       {founder.building && (
         <p className="mt-2.5 break-words font-hind text-base font-medium sm:text-lg">
           {founder.building}
         </p>
       )}
-
-      {/* INDUSTRY */}
 
       {founder.industry && (
         <div className="mt-3">
@@ -190,11 +180,8 @@ function FounderCard({
         </div>
       )}
 
-      {/* LOOKING FOR */}
-
       {lookingFor.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
-
           {lookingFor.map((item, itemIndex) => (
             <span
               key={`${item}-${itemIndex}`}
@@ -203,10 +190,8 @@ function FounderCard({
               Looking for: {item}
             </span>
           ))}
-
         </div>
       )}
-
     </article>
   );
 }
@@ -224,7 +209,6 @@ function EmptyState({
 }) {
   return (
     <div className="px-4 py-16 text-center">
-
       <h3 className="font-bricolage text-xl font-extrabold">
         {title}
       </h3>
@@ -232,7 +216,6 @@ function EmptyState({
       <p className="mt-2 font-hind text-sm text-[#625D53]">
         {message}
       </p>
-
     </div>
   );
 }
@@ -258,10 +241,6 @@ function JoinFounderForm({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  // ----------------------------------------
-  // FORM SUBMISSION
-  // ----------------------------------------
 
   const handleSubmit = async (
     e: FormEvent<HTMLFormElement>
@@ -290,15 +269,10 @@ function JoinFounderForm({
           consent: true,
         });
 
-      if (insertError) {
-        throw insertError;
-      }
+      if (insertError) throw insertError;
 
       setSubmitted(true);
-
-      // Refresh the public founder list.
       onSuccess();
-
     } catch (err) {
       console.error("Founder registration error:", err);
 
@@ -307,15 +281,10 @@ function JoinFounderForm({
           ? err.message
           : "Something went wrong. Please try again."
       );
-
     } finally {
       setSubmitting(false);
     }
   };
-
-  // ----------------------------------------
-  // FORM STYLES
-  // ----------------------------------------
 
   const inputClass =
     "w-full rounded-full border-[3px] border-[#17130F] bg-[#FFF9E9] px-5 py-3.5 font-hind text-base text-[#17130F] outline-none transition placeholder:text-[#817B70] focus:ring-2 focus:ring-[#FFD83D] sm:text-lg";
@@ -327,28 +296,21 @@ function JoinFounderForm({
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-[#17130F]/80 p-3 backdrop-blur-sm sm:p-6"
       onMouseDown={(e) => {
-        if (
-          e.target === e.currentTarget &&
-          !submitting
-        ) {
+        if (e.target === e.currentTarget && !submitting) {
           onClose();
         }
       }}
     >
-
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="join-founder-title"
         className="relative my-auto grid w-full max-w-[1100px] grid-cols-1 overflow-hidden rounded-[28px] border-[3px] border-[#17130F] bg-[#E5242A] shadow-[8px_8px_0_#17130F] lg:grid-cols-2"
       >
-
         {/* LEFT SIDE */}
 
         <div className="flex flex-col justify-between p-6 text-white sm:p-10 lg:p-12">
-
           <div>
-
             <div className="mb-8 inline-flex rounded-full border-2 border-white/50 px-4 py-2 font-hind text-xs font-bold uppercase tracking-wider">
               Founder Ke Samaan
             </div>
@@ -365,11 +327,9 @@ function JoinFounderForm({
               Consent do, aur aap seedhe Founder Tapri par
               dikhenge.
             </p>
-
           </div>
 
           <div className="mt-10 hidden lg:block">
-
             <p className="font-bricolage text-2xl font-extrabold text-[#FFD83D]">
               Build together. Grow together.
             </p>
@@ -377,17 +337,12 @@ function JoinFounderForm({
             <p className="mt-2 font-hind text-sm text-white/80">
               Every great startup begins with a conversation.
             </p>
-
           </div>
-
         </div>
 
-        {/* RIGHT SIDE */}
+        {/* RIGHT SIDE - FORM */}
 
         <div className="relative p-6 sm:p-10 lg:p-12">
-
-          {/* CLOSE BUTTON */}
-
           <button
             type="button"
             onClick={onClose}
@@ -398,12 +353,8 @@ function JoinFounderForm({
             ×
           </button>
 
-          {/* SUCCESS STATE */}
-
           {submitted ? (
-
             <div className="flex min-h-[500px] flex-col items-center justify-center text-center text-white">
-
               <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border-[3px] border-[#17130F] bg-[#FFD83D] text-4xl font-extrabold text-[#17130F]">
                 ✓
               </div>
@@ -424,17 +375,10 @@ function JoinFounderForm({
               >
                 Back to Founder Tapri
               </button>
-
             </div>
-
           ) : (
-
             <>
-
-              {/* FORM HEADING */}
-
               <div className="mb-7 pr-12">
-
                 <h3 className="font-bricolage text-3xl font-extrabold text-white">
                   Join the community.
                 </h3>
@@ -443,23 +387,11 @@ function JoinFounderForm({
                   Tell us a little about yourself and what
                   you&apos;re building.
                 </p>
-
               </div>
 
-              {/* FORM */}
-
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-4"
-              >
-
-                {/* NAME */}
-
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label
-                    htmlFor="founder-name"
-                    className={labelClass}
-                  >
+                  <label htmlFor="founder-name" className={labelClass}>
                     Name
                   </label>
 
@@ -476,13 +408,8 @@ function JoinFounderForm({
                   />
                 </div>
 
-                {/* BUILDING */}
-
                 <div>
-                  <label
-                    htmlFor="founder-building"
-                    className={labelClass}
-                  >
+                  <label htmlFor="founder-building" className={labelClass}>
                     What are you building?
                   </label>
 
@@ -498,13 +425,8 @@ function JoinFounderForm({
                   />
                 </div>
 
-                {/* INDUSTRY */}
-
                 <div>
-                  <label
-                    htmlFor="founder-industry"
-                    className={labelClass}
-                  >
+                  <label htmlFor="founder-industry" className={labelClass}>
                     Industry
                   </label>
 
@@ -524,17 +446,11 @@ function JoinFounderForm({
                         {item}
                       </option>
                     ))}
-
                   </select>
                 </div>
 
-                {/* LOOKING FOR */}
-
                 <div>
-                  <label
-                    htmlFor="founder-looking"
-                    className={labelClass}
-                  >
+                  <label htmlFor="founder-looking" className={labelClass}>
                     Looking for
                   </label>
 
@@ -554,17 +470,11 @@ function JoinFounderForm({
                         {item}
                       </option>
                     ))}
-
                   </select>
                 </div>
 
-                {/* EMAIL */}
-
                 <div>
-                  <label
-                    htmlFor="founder-email"
-                    className={labelClass}
-                  >
+                  <label htmlFor="founder-email" className={labelClass}>
                     Email
                   </label>
 
@@ -581,10 +491,7 @@ function JoinFounderForm({
                   />
                 </div>
 
-                {/* CONSENT */}
-
                 <label className="flex cursor-pointer items-start gap-3 py-1 font-hind text-sm font-bold leading-relaxed text-white">
-
                   <input
                     type="checkbox"
                     required
@@ -597,10 +504,7 @@ function JoinFounderForm({
                     Haan, mera naam aur startup details Founder
                     Tapri par public dikhao.
                   </span>
-
                 </label>
-
-                {/* ERROR */}
 
                 {error && (
                   <p
@@ -611,41 +515,31 @@ function JoinFounderForm({
                   </p>
                 )}
 
-                {/* SUBMIT BUTTON */}
-
                 <button
                   type="submit"
                   disabled={submitting}
                   className="w-full rounded-full border-[3px] border-[#17130F] bg-[#17130F] px-5 py-4 font-bricolage text-lg font-extrabold text-[#FFD83D] transition hover:bg-[#FFD83D] hover:text-[#17130F] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {submitting
-                    ? "Joining..."
-                    : "Founder Tapri mein judo"}
+                  {submitting ? "Joining..." : "Founder Tapri mein judo"}
                 </button>
 
                 <p className="text-center font-hind text-xs text-white/70">
                   Your email will not be displayed publicly.
                 </p>
-
               </form>
-
             </>
           )}
-
         </div>
-
       </div>
-
     </div>
   );
 }
 
 // ==========================================
-// MAIN FOUNDER TAPRI COMPONENT
+// MAIN FOUNDER TAPRI SECTION
 // ==========================================
 
 export default function FounderTapriSection() {
-
   const [activeTab, setActiveTab] = useState<Tab>("Founders");
 
   const [founders, setFounders] = useState<Founder[]>([]);
@@ -660,13 +554,11 @@ export default function FounderTapriSection() {
   // ----------------------------------------
 
   const fetchFounders = useCallback(async () => {
-
     const supabase = createClient();
 
     setError("");
 
     try {
-
       const { data, error } = await supabase
         .from("public_founders")
         .select(`
@@ -679,14 +571,10 @@ export default function FounderTapriSection() {
         `)
         .order("created_at", { ascending: false });
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       setFounders((data || []) as Founder[]);
-
     } catch (err) {
-
       console.error("Error fetching founders:", err);
 
       setError(
@@ -694,19 +582,11 @@ export default function FounderTapriSection() {
           ? err.message
           : "Something went wrong while fetching founders."
       );
-
     } finally {
-
       setLoading(false);
       setRefreshing(false);
-
     }
-
   }, []);
-
-  // ----------------------------------------
-  // INITIAL FETCH
-  // ----------------------------------------
 
   useEffect(() => {
     fetchFounders();
@@ -719,7 +599,6 @@ export default function FounderTapriSection() {
   const totalFounders = founders.length;
 
   const last24Hours = founders.filter((founder) => {
-
     const createdAt = new Date(founder.created_at).getTime();
 
     return (
@@ -727,7 +606,6 @@ export default function FounderTapriSection() {
       createdAt >= Date.now() - 24 * 60 * 60 * 1000 &&
       createdAt <= Date.now()
     );
-
   }).length;
 
   // ----------------------------------------
@@ -735,6 +613,8 @@ export default function FounderTapriSection() {
   // ----------------------------------------
 
   const handleRefresh = () => {
+    if (refreshing || loading) return;
+
     setRefreshing(true);
     fetchFounders();
   };
@@ -744,17 +624,16 @@ export default function FounderTapriSection() {
   // ----------------------------------------
 
   return (
-
     <section className="bg-[#FFD83D] px-4 py-14 sm:px-8 sm:py-20 lg:px-12">
-
       <div className="mx-auto max-w-[1600px]">
 
-        {/* SECTION INTRO */}
+        {/* SIDE-BY-SIDE LAYOUT */}
 
-        <div className="mb-10 flex flex-col items-start justify-between gap-6 lg:mb-14 lg:flex-row lg:items-end">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.85fr_1.4fr] lg:gap-12">
 
-          <div>
+          {/* LEFT COLUMN - INTRODUCTION */}
 
+          <div className="flex flex-col items-start">
             <p className="mb-4 inline-block rounded-full border-2 border-[#17130F] bg-[#FFF9E9] px-4 py-2 font-hind text-sm font-extrabold">
               THE FOUNDERS&apos; CORNER
             </p>
@@ -770,198 +649,152 @@ export default function FounderTapriSection() {
               conversations happening here.
             </p>
 
-          </div>
-
-          {/* JOIN BUTTON */}
-
-          <button
-            type="button"
-            onClick={() => setShowJoinForm(true)}
-            className="group flex shrink-0 items-center gap-3 rounded-full border-[3px] border-[#17130F] bg-[#17130F] px-7 py-4 font-bricolage text-base font-extrabold text-[#FFD83D] shadow-[5px_5px_0_#17130F] transition hover:translate-x-1 hover:translate-y-1 hover:shadow-none sm:px-9 sm:py-5 sm:text-lg"
-          >
-            Join Founder Ki Tapri
-
-            <span className="text-xl transition-transform group-hover:translate-x-1">
-              →
-            </span>
-
-          </button>
-
-        </div>
-
-        {/* FOUNDER TAPRI DASHBOARD */}
-
-        <div className="overflow-hidden rounded-[28px] border-[3px] border-[#17130F] bg-[#FFF9E9] shadow-[10px_10px_0_#17130F]">
-
-          {/* HEADER */}
-
-          <header className="flex items-center justify-between border-b-[3px] border-[#17130F] bg-[#17130F] px-5 py-4 sm:px-6">
-
-            <h3 className="font-bricolage text-xl font-extrabold text-[#FFD83D]">
-              Founder Tapri
-            </h3>
-
-            <div className="flex items-center gap-2 font-hind text-sm font-bold text-white">
-
-              <span className="h-3 w-3 rounded-full bg-[#087F70]" />
-
-              Live
-
-            </div>
-
-          </header>
-
-          {/* STATISTICS */}
-
-          <div className="grid grid-cols-2 border-b-[3px] border-[#17130F]">
-
-            <div className="border-r-[3px] border-[#17130F] bg-[#FFF9E9] px-4 py-5 sm:px-6 sm:py-6">
-
-              <p className="font-bricolage text-5xl font-extrabold leading-none sm:text-7xl">
-                {loading ? "--" : totalFounders}
-              </p>
-
-              <p className="mt-2 font-hind text-sm text-[#625D53] sm:text-base">
-                founders joined
-              </p>
-
-            </div>
-
-            <div className="bg-[#2855D9] px-4 py-5 text-white sm:px-6 sm:py-6">
-
-              <p className="font-bricolage text-5xl font-extrabold leading-none sm:text-7xl">
-                {loading ? "--" : last24Hours}
-              </p>
-
-              <p className="mt-2 font-hind text-sm sm:text-base">
-                joined in last 24 hours
-              </p>
-
-            </div>
-
-          </div>
-
-          {/* TABS */}
-
-          <nav className="grid grid-cols-5 border-b-[3px] border-[#17130F]">
-
-            {tabs.map((tab) => (
-
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveTab(tab)}
-                aria-pressed={activeTab === tab}
-                className={`flex min-h-[58px] items-center justify-center border-r-2 border-[#17130F] px-1 py-2 font-hind text-[10px] font-extrabold last:border-r-0 sm:text-sm lg:text-base ${
-                  activeTab === tab
-                    ? "bg-[#17130F] text-[#FFD83D]"
-                    : "bg-[#FFF9E9] text-[#17130F] hover:bg-[#FFD83D]"
-                }`}
-              >
-                {tab}
-              </button>
-
-            ))}
-
-          </nav>
-
-          {/* TAB CONTENT */}
-
-          <div className="max-h-[520px] min-h-[200px] overflow-y-auto bg-white">
-
-            {/* FOUNDERS */}
-
-            {activeTab === "Founders" && (
-
-              <div className="space-y-3.5 p-3.5 sm:p-4">
-
-                {loading ? (
-
-                  <EmptyState
-                    title="Loading founders..."
-                    message="Fetching the latest founder registrations."
-                  />
-
-                ) : error ? (
-
-                  <EmptyState
-                    title="Unable to load founders"
-                    message={error}
-                  />
-
-                ) : founders.length === 0 ? (
-
-                  <EmptyState
-                    title="No founders yet!"
-                    message="Be the first to join Founder Ke Samaan."
-                  />
-
-                ) : (
-
-                  founders.map((founder, index) => (
-
-                    <FounderCard
-                      key={founder.id}
-                      founder={founder}
-                      index={index}
-                    />
-
-                  ))
-
-                )}
-
-              </div>
-
-            )}
-
-            {/* OTHER TABS */}
-
-            {activeTab !== "Founders" && (
-
-              <EmptyState
-                title={`${activeTab} coming soon!`}
-                message="We're working on this section. Stay tuned!"
-              />
-
-            )}
-
-          </div>
-
-          {/* FOOTER */}
-
-          <footer className="flex flex-wrap items-center justify-between gap-3 border-t-[3px] border-[#17130F] bg-[#FFF9E9] px-4 py-3.5 sm:px-5">
-
-            <p className="font-hind text-xs font-medium text-[#625D53] sm:text-sm">
-              Showing registered founders from our community.
-            </p>
-
             <button
               type="button"
-              onClick={handleRefresh}
-              disabled={loading || refreshing}
-              className="font-hind text-xs font-bold text-[#087F70] transition hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+              onClick={() => setShowJoinForm(true)}
+              className="group mt-8 flex items-center gap-3 rounded-full border-[3px] border-[#17130F] bg-[#17130F] px-7 py-4 font-bricolage text-base font-extrabold text-[#FFD83D] shadow-[5px_5px_0_#17130F] transition hover:translate-x-1 hover:translate-y-1 hover:shadow-none sm:px-9 sm:py-5 sm:text-lg"
             >
-              {refreshing ? "Refreshing..." : "↻ Refresh"}
+              Join Founder Ki Tapri
+
+              <span className="text-xl transition-transform group-hover:translate-x-1">
+                →
+              </span>
             </button>
 
-          </footer>
+            <p className="mt-5 font-hind text-sm font-semibold text-[#17130F]/70">
+              Meet founders. Share ideas. Build together.
+            </p>
+          </div>
 
+          {/* RIGHT COLUMN - FOUNDER TAPRI DASHBOARD */}
+
+          <div className="min-w-0 overflow-hidden rounded-[28px] border-[3px] border-[#17130F] bg-[#FFF9E9] shadow-[10px_10px_0_#17130F]">
+
+            {/* HEADER */}
+
+            <header className="flex items-center justify-between border-b-[3px] border-[#17130F] bg-[#17130F] px-5 py-4 sm:px-6">
+              <h3 className="font-bricolage text-xl font-extrabold text-[#FFD83D]">
+                Founder Tapri
+              </h3>
+
+              <div className="flex items-center gap-2 font-hind text-sm font-bold text-white">
+                <span className="h-3 w-3 rounded-full bg-[#087F70]" />
+                Live
+              </div>
+            </header>
+
+            {/* STATISTICS */}
+
+            <div className="grid grid-cols-2 border-b-[3px] border-[#17130F]">
+              <div className="border-r-[3px] border-[#17130F] bg-[#FFF9E9] px-4 py-5 sm:px-6 sm:py-6">
+                <p className="font-bricolage text-5xl font-extrabold leading-none sm:text-7xl">
+                  {loading ? "--" : totalFounders}
+                </p>
+
+                <p className="mt-2 font-hind text-sm text-[#625D53] sm:text-base">
+                  founders joined
+                </p>
+              </div>
+
+              <div className="bg-[#2855D9] px-4 py-5 text-white sm:px-6 sm:py-6">
+                <p className="font-bricolage text-5xl font-extrabold leading-none sm:text-7xl">
+                  {loading ? "--" : last24Hours}
+                </p>
+
+                <p className="mt-2 font-hind text-sm sm:text-base">
+                  joined in last 24 hours
+                </p>
+              </div>
+            </div>
+
+            {/* TABS */}
+
+            <nav className="grid grid-cols-5 border-b-[3px] border-[#17130F]">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveTab(tab)}
+                  aria-pressed={activeTab === tab}
+                  className={`flex min-h-[58px] items-center justify-center border-r-2 border-[#17130F] px-1 py-2 font-hind text-[10px] font-extrabold last:border-r-0 sm:text-sm lg:text-base ${
+                    activeTab === tab
+                      ? "bg-[#17130F] text-[#FFD83D]"
+                      : "bg-[#FFF9E9] text-[#17130F] hover:bg-[#FFD83D]"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
+
+            {/* TAB CONTENT */}
+
+            <div className="max-h-[520px] min-h-[200px] overflow-y-auto bg-white">
+              {activeTab === "Founders" && (
+                <div className="space-y-3.5 p-3.5 sm:p-4">
+                  {loading ? (
+                    <EmptyState
+                      title="Loading founders..."
+                      message="Fetching the latest founder registrations."
+                    />
+                  ) : error ? (
+                    <EmptyState
+                      title="Unable to load founders"
+                      message={error}
+                    />
+                  ) : founders.length === 0 ? (
+                    <EmptyState
+                      title="No founders yet!"
+                      message="Be the first to join Founder Ke Samaan."
+                    />
+                  ) : (
+                    founders.map((founder, index) => (
+                      <FounderCard
+                        key={founder.id}
+                        founder={founder}
+                        index={index}
+                      />
+                    ))
+                  )}
+                </div>
+              )}
+
+              {activeTab !== "Founders" && (
+                <EmptyState
+                  title={`${activeTab} coming soon!`}
+                  message="We're working on this section. Stay tuned!"
+                />
+              )}
+            </div>
+
+            {/* FOOTER */}
+
+            <footer className="flex flex-wrap items-center justify-between gap-3 border-t-[3px] border-[#17130F] bg-[#FFF9E9] px-4 py-3.5 sm:px-5">
+              <p className="font-hind text-xs font-medium text-[#625D53] sm:text-sm">
+                Showing registered founders from our community.
+              </p>
+
+              <button
+                type="button"
+                onClick={handleRefresh}
+                disabled={loading || refreshing}
+                className="font-hind text-xs font-bold text-[#087F70] transition hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {refreshing ? "Refreshing..." : "↻ Refresh"}
+              </button>
+            </footer>
+          </div>
         </div>
-
       </div>
 
       {/* JOIN FORM MODAL */}
 
       {showJoinForm && (
-
         <JoinFounderForm
           onClose={() => setShowJoinForm(false)}
           onSuccess={fetchFounders}
         />
-
       )}
-
     </section>
-
   );
 }
