@@ -246,6 +246,7 @@ function openProductModal(product: Product) {
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
+              productId={product.id}
               category={product.label}
               name={product.name}
               description={product.description}
