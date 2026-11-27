@@ -1,7 +1,9 @@
 
 import Image from "next/image";
+import ProductIllustration from "./ProductIllustration";
 
 export interface ProductCardProps {
+  productId: number;
   category: string;
   name: string;
   description: string;
@@ -14,6 +16,7 @@ export interface ProductCardProps {
 }
 
 export default function ProductCard({
+  productId,
   category,
   name,
   description,
@@ -40,13 +43,8 @@ export default function ProductCard({
             className="object-contain p-6 transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="text-center">
-            <p className="font-heading text-4xl font-extrabold tracking-tight text-brand-black sm:text-5xl">
-              FKS
-            </p>
-            <p className="mt-2 font-body text-xs font-bold uppercase tracking-widest text-brand-black">
-              Founder Ke Samaan
-            </p>
+          <div className="h-full w-full p-5 transition-transform duration-300 group-hover:scale-105">
+            <ProductIllustration productId={productId} />
           </div>
         )}
       </div>
@@ -54,17 +52,14 @@ export default function ProductCard({
       {/* Product Information */}
       <div className="p-4 sm:p-5">
 
-        {/* Category */}
         <p className="font-body text-xs font-bold uppercase tracking-[0.15em] text-brand-teal">
           {category}
         </p>
 
-        {/* Product Name */}
         <h3 className="mt-2 font-heading text-xl font-bold text-brand-black sm:text-2xl">
           {name}
         </h3>
 
-        {/* Description */}
         <p className="mt-2 min-h-12 font-body text-sm leading-relaxed text-brand-black/80">
           {description}
         </p>
@@ -77,16 +72,12 @@ export default function ProductCard({
 
           <button
             type="button"
-            onClick={() => {
-              console.log("Notify me clicked:", name);
-              onAction?.();
-            }}
+            onClick={onAction}
             className="rounded-full border-2 border-brand-black bg-brand-yellow px-4 py-2 font-body text-xs font-bold text-brand-black transition-colors hover:bg-brand-red hover:text-white sm:text-sm"
           >
             {buttonLabel}
           </button>
         </div>
-
       </div>
     </article>
   );
