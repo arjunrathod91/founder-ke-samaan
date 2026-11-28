@@ -57,7 +57,7 @@ export default function TapFAQ() {
                     setActiveIndex(isOpen ? null : index)
                   }
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left cursor-pointer" 
                 >
                   <span className="font-bricolage text-base font-bold text-[#15110F] sm:text-lg">
                     {faq.question}
