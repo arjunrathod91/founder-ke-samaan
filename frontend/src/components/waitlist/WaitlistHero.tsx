@@ -227,7 +227,7 @@ export default function WaitlistHero() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full border-2 border-brand-black bg-brand-red px-6 py-3 font-bold text-white shadow-[2px_3px_0px_#17130F] transition hover:translate-y-[2px] hover:shadow-none disabled:cursor-not-allowed disabled:opacity-60"
+              className="cursor-pointer w-full rounded-full border-2 border-brand-black bg-brand-red px-6 py-3 font-bold text-white shadow-[2px_3px_0px_#17130F] transition hover:translate-y-[2px] hover:shadow-none disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Adding you..." : "Waitlist mein jodo"}
             </button>
