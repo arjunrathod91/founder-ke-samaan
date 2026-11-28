@@ -441,7 +441,7 @@ export default function AdminDashboard() {
                   setActiveTab(item.key);
                   setSearch("");
                 }}
-                className={`flex shrink-0 items-center justify-between gap-3 rounded-lg border-2 px-3 py-3 text-left text-xs font-bold transition lg:w-full ${
+                className={`cursor-pointer flex shrink-0 items-center justify-between gap-3 rounded-lg border-2 px-3 py-3 text-left text-xs font-bold transition lg:w-full ${
                   activeTab === item.key
                     ? "border-brand-black bg-brand-yellow shadow-[3px_3px_0_#17130F]"
                     : "border-transparent hover:border-brand-black/20 hover:bg-brand-cream"
@@ -511,7 +511,7 @@ export default function AdminDashboard() {
                 <button
                   onClick={exportCSV}
                   disabled={filteredRows.length === 0}
-                  className="rounded-lg border-2 border-brand-black bg-white px-4 py-3 text-xs font-bold shadow-[3px_3px_0_#17130F] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none disabled:opacity-40"
+                  className="cursor-pointer rounded-lg border-2 border-brand-black bg-white px-4 py-3 text-xs font-bold shadow-[3px_3px_0_#17130F] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none disabled:opacity-40"
                 >
                   ↓ Export CSV
                 </button>
@@ -520,7 +520,7 @@ export default function AdminDashboard() {
               <button
                 onClick={fetchDashboardData}
                 disabled={refreshing}
-                className="rounded-lg border-2 border-brand-black bg-brand-yellow px-4 py-3 text-xs font-bold shadow-[3px_3px_0_#17130F] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none disabled:opacity-50"
+                className="cursor-pointer rounded-lg border-2 border-brand-black bg-brand-yellow px-4 py-3 text-xs font-bold shadow-[3px_3px_0_#17130F] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none disabled:opacity-50"
               >
                 {refreshing ? "Refreshing..." : "↻ Refresh data"}
               </button>
@@ -609,7 +609,7 @@ export default function AdminDashboard() {
                     <button
                       key={item.key}
                       onClick={() => setActiveTab(item.key)}
-                      className="rounded-xl border-2 border-brand-black bg-white p-5 text-left transition hover:-translate-y-1 hover:shadow-[4px_4px_0_#17130F]"
+                      className="cursor-pointer rounded-xl border-2 border-brand-black bg-white p-5 text-left transition hover:-translate-y-1 hover:shadow-[4px_4px_0_#17130F]"
                     >
                       <p className="text-xs font-bold">{item.label}</p>
 
