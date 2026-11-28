@@ -73,7 +73,7 @@ export default function ProductCard({
           <button
             type="button"
             onClick={onAction}
-            className="rounded-full border-2 border-brand-black bg-brand-yellow px-4 py-2 font-body text-xs font-bold text-brand-black transition-colors hover:bg-brand-red hover:text-white sm:text-sm"
+            className="rounded-full border-2 border-brand-black bg-brand-yellow px-4 py-2 font-body text-xs font-bold text-brand-black transition-colors hover:bg-brand-red hover:text-white sm:text-sm cursor-pointer"
           >
             {buttonLabel}
           </button>
