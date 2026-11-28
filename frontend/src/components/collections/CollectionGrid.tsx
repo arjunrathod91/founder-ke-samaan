@@ -211,7 +211,7 @@ export default function CollectionsGrid() {
                   <button
                     type="button"
                     onClick={() => openModal(collection)}
-                    className={`mt-7 w-fit rounded-full border-2 border-[#17120f] px-5 py-2 font-hind text-xs font-bold transition-transform hover:-translate-y-1 ${collection.buttonStyle}`}
+                    className={`cursor-pointer mt-7 w-fit rounded-full border-2 border-[#17120f] px-5 py-2 font-hind text-xs font-bold transition-transform hover:-translate-y-1 ${collection.buttonStyle}`}
                   >
                     {collection.button}
                   </button>
