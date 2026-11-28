@@ -45,7 +45,7 @@ export default function ProductFilters({
                 onClick={() => onCategoryChange(category)}
                 aria-pressed={isActive}
                 className={`
-                  rounded-full border-2 border-brand-black
+                  rounded-full cursor-pointer border-2 border-brand-black
                   px-4 py-1.5
                   font-body text-sm font-semibold
                   transition-colors duration-200
