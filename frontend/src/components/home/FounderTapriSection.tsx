@@ -652,7 +652,7 @@ export default function FounderTapriSection() {
             <button
               type="button"
               onClick={() => setShowJoinForm(true)}
-              className="group mt-8 flex items-center gap-3 rounded-full border-[3px] border-[#17130F] bg-[#17130F] px-7 py-4 font-bricolage text-base font-extrabold text-[#FFD83D] shadow-[5px_5px_0_#17130F] transition hover:translate-x-1 hover:translate-y-1 hover:shadow-none sm:px-9 sm:py-5 sm:text-lg"
+              className="group mt-8 flex items-center gap-3 rounded-full border-[3px] border-[#17130F] bg-[#17130F] px-7 py-4 font-bricolage text-base font-extrabold text-[#FFD83D] shadow-[5px_5px_0_#17130F] transition hover:translate-x-1 hover:translate-y-1 hover:shadow-none sm:px-9 sm:py-5 sm:text-lg cursor-pointer"
             >
               Join Founder Ki Tapri
 
@@ -716,7 +716,7 @@ export default function FounderTapriSection() {
                   type="button"
                   onClick={() => setActiveTab(tab)}
                   aria-pressed={activeTab === tab}
-                  className={`flex min-h-[58px] items-center justify-center border-r-2 border-[#17130F] px-1 py-2 font-hind text-[10px] font-extrabold last:border-r-0 sm:text-sm lg:text-base ${
+                  className={`flex min-h-[58px] items-center justify-center border-r-2 border-[#17130F] px-1 py-2 font-hind text-[10px] font-extrabold last:border-r-0 sm:text-sm lg:text-base cursor-pointer ${
                     activeTab === tab
                       ? "bg-[#17130F] text-[#FFD83D]"
                       : "bg-[#FFF9E9] text-[#17130F] hover:bg-[#FFD83D]"
