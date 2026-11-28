@@ -94,7 +94,7 @@ export default function WaitlistSection() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-3 block w-full rounded-full border-2 border-[#17130F] bg-[#17130F] px-5 py-3 text-center font-hind text-sm font-bold text-[#FFD83D] transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-3 block w-full rounded-full border-2 border-[#17130F] bg-[#17130F] px-5 py-3 text-center font-hind text-sm font-bold text-[#FFD83D] transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Joining..." : "Waitlist mein jodo"}
             </button>
