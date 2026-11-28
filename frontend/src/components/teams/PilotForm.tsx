@@ -167,7 +167,7 @@ export default function PilotForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-full border-2 border-[#17130F] bg-[#FFD83D] px-6 py-3 font-black text-[#17130F] shadow-[3px_3px_0_#17130F] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:cursor-not-allowed disabled:opacity-60"
+              className="cursor-pointer w-full rounded-full border-2 border-[#17130F] bg-[#FFD83D] px-6 py-3 font-black text-[#17130F] shadow-[3px_3px_0_#17130F] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Submitting..." : "Pilot book karo"}
             </button>
